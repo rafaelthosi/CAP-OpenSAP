@@ -1,7 +1,7 @@
 namespace sap.capire.bookshop;
 using { Currency, managed } from '@sap/cds/common';
 
-entity Books : managed {
+entity Books : managed, AdditionalInfo {
   key ID   : Integer;
   title    : localized String(111);
   descr    : localized String(1111);
@@ -22,9 +22,20 @@ entity Orders : managed {
   OrderNo  : String @title:'Order Number'; //> readable key
   Items    : Composition of many OrderItems on Items.parent = $self;
 }
+
 entity OrderItems {
   key ID   : UUID;
   parent   : Association to Orders;
   book     : Association to Books;
   amount   : Integer;
+}
+
+entity Movies : managed, AdditionalInfo {
+  key ID   : Integer;
+  name     : String(111);
+}
+
+aspect AdditionalInfo {
+  genre    : String(100);
+  language : String(200);
 }
